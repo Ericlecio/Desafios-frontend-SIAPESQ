@@ -7,10 +7,10 @@ const index: React.FC = () => {
   const router = useRouter();
 
   const speciesImages = [
-    "/tartarugajpg.jpg",
-    "/tatu.jpg",
-    "/sei.jpg",
-    "/tigre.jpg",
+    "https://static.wixstatic.com/media/8438f6_449ebfdb0e8f4cdd968752e658250ff2~mv2.jpg/v1/fill/w_568,h_278,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/8438f6_449ebfdb0e8f4cdd968752e658250ff2~mv2.jpg",
+    "https://cdn.pixabay.com/photo/2023/03/28/09/28/cat-7882701_1280.jpg",
+    "https://www.infoescola.com/wp-content/uploads/2017/11/zebras_234779578.jpg",
+    ,
   ];
 
   const [currentImage, setCurrentImage] = useState(0);
@@ -47,7 +47,7 @@ const index: React.FC = () => {
         </p>
 
         <button
-          onClick={() => router.push("/informacoes")}
+          onClick={() => router.push("/info")}
           className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-full font-semibold transition z-10 relative shadow-lg"
         >
           Explorar Espécies
