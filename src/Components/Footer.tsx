@@ -1,77 +1,65 @@
-// =======================
-// Components/Footer.tsx
-// =======================
-
 import React from "react";
+import { FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#0F172A] text-white pt-12 pb-6 mt-10">
+    <footer className="bg-[#0F172A] text-white pt-14 pb-6 mt-10 font-poppins">
       <div className="max-w-7xl mx-auto px-6">
+        {/* Grid de seções */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+          {/* EcoPulse Info */}
           <div>
-            <h3 className="font-semibold text-xl mb-4">Sobre</h3>
-            <ul className="space-y-2">
+            <h3 className="text-xl font-bold mb-4 text-emerald-400">
+              EcoPulse
+            </h3>
+            <p className="text-sm text-gray-300">
+              Monitorando o pulso da vida no planeta. Dados da biodiversidade,
+              acessíveis e em tempo real.
+            </p>
+          </div>
+
+          {/* Sobre */}
+          <div>
+            <h4 className="text-lg font-semibold mb-4 text-emerald-400">
+              Sobre
+            </h4>
+            <ul className="space-y-2 text-sm">
               <li>
-                <a href="/sobre" className="hover:text-emerald-400 transition">
+                <a href="/sobre" className="hover:text-emerald-300 transition">
                   Nossa História
                 </a>
               </li>
               <li>
                 <a
                   href="/contato"
-                  className="hover:text-emerald-400 transition"
+                  className="hover:text-emerald-300 transition"
                 >
                   Contato
                 </a>
               </li>
               <li>
-                <a href="/faq" className="hover:text-emerald-400 transition">
+                <a href="/faq" className="hover:text-emerald-300 transition">
                   FAQ
                 </a>
               </li>
             </ul>
           </div>
 
+          {/* Legal */}
           <div>
-            <h3 className="font-semibold text-xl mb-4">Serviços</h3>
-            <ul className="space-y-2">
+            <h4 className="text-lg font-semibold mb-4 text-emerald-400">
+              Legal
+            </h4>
+            <ul className="space-y-2 text-sm">
               <li>
-                <a
-                  href="/comprar"
-                  className="hover:text-emerald-400 transition"
-                >
-                  Comprar
-                </a>
-              </li>
-              <li>
-                <a href="/vender" className="hover:text-emerald-400 transition">
-                  Vender
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/meus-anuncios"
-                  className="hover:text-emerald-400 transition"
-                >
-                  Meus Anúncios
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-semibold text-xl mb-4">Legal</h3>
-            <ul className="space-y-2">
-              <li>
-                <a href="/termos" className="hover:text-emerald-400 transition">
+                <a href="/termos" className="hover:text-emerald-300 transition">
                   Termos de Uso
                 </a>
               </li>
               <li>
                 <a
                   href="/politica-privacidade"
-                  className="hover:text-emerald-400 transition"
+                  className="hover:text-emerald-300 transition"
                 >
                   Política de Privacidade
                 </a>
@@ -79,42 +67,50 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
+          {/* Social */}
           <div>
-            <h3 className="font-semibold text-xl mb-4">Siga-nos</h3>
-            <div className="flex space-x-4">
+            <h4 className="text-lg font-semibold mb-4 text-emerald-400">
+              Siga-nos
+            </h4>
+            <div className="flex space-x-5 text-xl text-gray-300">
               <a
-                href="https://www.facebook.com"
-                className="hover:text-emerald-400 transition"
-                aria-label="Facebook"
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-300 transition"
               >
-                <i className="bi bi-facebook text-2xl"></i>
+                <FaInstagram />
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-300 transition"
+              >
+                <FaLinkedin />
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-300 transition"
+              >
+                <FaFacebook />
               </a>
               <a
                 href="https://twitter.com"
-                className="hover:text-emerald-400 transition"
-                aria-label="Twitter"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-emerald-300 transition"
               >
-                <i className="bi bi-twitter text-2xl"></i>
-              </a>
-              <a
-                href="https://www.instagram.com"
-                className="hover:text-emerald-400 transition"
-                aria-label="Instagram"
-              >
-                <i className="bi bi-instagram text-2xl"></i>
-              </a>
-              <a
-                href="https://www.linkedin.com"
-                className="hover:text-emerald-400 transition"
-                aria-label="LinkedIn"
-              >
-                <i className="bi bi-linkedin text-2xl"></i>
+                <FaTwitter />
               </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-emerald-500 pt-6 text-center text-sm">
+        {/* Copyright */}
+        <div className="border-t border-emerald-500 pt-6 text-center text-sm text-gray-400">
           <p>
             © {new Date().getFullYear()} EcoPulse. Todos os direitos reservados.
           </p>

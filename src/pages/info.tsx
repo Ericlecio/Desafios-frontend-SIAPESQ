@@ -31,7 +31,7 @@ export default function Info() {
     return () => unsubscribe();
   }, [router]);
 
-  const fetchSpeciesByTaxon = async (name?: string, reset = false) => {
+  const fetchSpeciesByTaxon = async (name?: string) => {
     setLoading(true);
     try {
       const offsetToUse = (currentPage - 1) * 24;
@@ -66,7 +66,7 @@ export default function Info() {
   };
 
   useEffect(() => {
-    fetchSpeciesByTaxon(searchTerm, true);
+    fetchSpeciesByTaxon(searchTerm);
   }, [
     currentPage,
     countryFilter,
@@ -80,7 +80,7 @@ export default function Info() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setCurrentPage(1);
-    fetchSpeciesByTaxon(searchTerm, true);
+    fetchSpeciesByTaxon(searchTerm);
   };
 
   const exportToCSV = () => {
@@ -100,12 +100,13 @@ export default function Info() {
     FileSaver.saveAs(blob, "registros_biodiversidade.csv");
   };
 
-  if (!user)
+  if (!user) {
     return (
       <div className="text-center py-10 text-lg text-gray-600">
         Verificando autenticação...
       </div>
     );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#E0F2F1] to-[#B2DFDB]">
@@ -181,13 +182,6 @@ export default function Info() {
           </button>
         </form>
 
-        <button
-          onClick={exportToCSV}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-xl shadow transition mb-6"
-        >
-          📥 Exportar CSV
-        </button>
-
         {loading ? (
           <div className="text-center text-lg text-gray-700">
             Carregando dados...
@@ -244,49 +238,113 @@ export default function Info() {
         </div>
 
         {selectedSpecie && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-white max-h-[90vh] w-full max-w-2xl rounded-2xl shadow-lg overflow-y-auto p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-3xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto p-8 relative">
               <button
                 onClick={() => setSelectedSpecie(null)}
-                className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-xl"
+                className="absolute top-4 right-4 text-gray-500 hover:text-red-500 text-2xl"
               >
                 ×
               </button>
-              <img
-                src={
-                  selectedSpecie.media?.[0]?.identifier || "/placeholder.jpg"
-                }
-                alt={selectedSpecie.scientificName}
-                className="w-full h-64 object-cover rounded-xl mb-4"
-              />
-              <h2 className="text-2xl font-bold text-[#1E3A8A] mb-2">
+
+              {selectedSpecie.media?.length > 0 && (
+                <img
+                  src={selectedSpecie.media[0].identifier}
+                  alt={selectedSpecie.scientificName}
+                  className="w-full h-80 object-cover rounded-xl mb-6 shadow"
+                />
+              )}
+
+              {selectedSpecie.media?.length > 1 && (
+                <div className="mb-6">
+                  <h3 className="text-md font-semibold text-gray-600 mb-2">
+                    Outras imagens:
+                  </h3>
+                  <div className="flex gap-3 overflow-x-auto pb-2">
+                    {selectedSpecie.media
+                      .slice(1)
+                      .map((img: any, index: number) => (
+                        <img
+                          key={index}
+                          src={img.identifier}
+                          alt={`${selectedSpecie.scientificName} ${index}`}
+                          className="h-32 rounded-xl object-cover shadow min-w-[150px]"
+                        />
+                      ))}
+                  </div>
+                </div>
+              )}
+
+              <h2 className="text-3xl font-bold text-[#1E3A8A] mb-1">
                 {selectedSpecie.species || "Espécie Desconhecida"}
               </h2>
-              <div className="space-y-1 text-sm text-gray-700">
-                <p>
-                  <strong>Nome Científico:</strong>{" "}
-                  {selectedSpecie.scientificName}
-                </p>
-                <p>
-                  <strong>País:</strong> {selectedSpecie.country}
-                </p>
-                <p>
-                  <strong>Data:</strong> {selectedSpecie.eventDate}
-                </p>
-                <p>
-                  <strong>Coletor:</strong> {selectedSpecie.recordedBy}
-                </p>
-                <p>
-                  <strong>Instituição:</strong> {selectedSpecie.institutionCode}
-                </p>
-                <p>
-                  <strong>Tipo de Registro:</strong>{" "}
-                  {selectedSpecie.basisOfRecord}
-                </p>
-                <p>
-                  <strong>Coordenadas:</strong> {selectedSpecie.decimalLatitude}
-                  , {selectedSpecie.decimalLongitude}
-                </p>
+              <p className="italic text-gray-600 mb-4">
+                {selectedSpecie.scientificName}
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-800">
+                {selectedSpecie.country && (
+                  <p>
+                    <strong>País:</strong> {selectedSpecie.country}
+                  </p>
+                )}
+                {selectedSpecie.eventDate && (
+                  <p>
+                    <strong>Data do Registro:</strong>{" "}
+                    {selectedSpecie.eventDate}
+                  </p>
+                )}
+                {selectedSpecie.recordedBy && (
+                  <p>
+                    <strong>Coletor:</strong> {selectedSpecie.recordedBy}
+                  </p>
+                )}
+                {(selectedSpecie.decimalLatitude ||
+                  selectedSpecie.decimalLongitude) && (
+                  <p>
+                    <strong>Coordenadas:</strong>{" "}
+                    {selectedSpecie.decimalLatitude},{" "}
+                    {selectedSpecie.decimalLongitude}
+                  </p>
+                )}
+                {selectedSpecie.institutionCode && (
+                  <p>
+                    <strong>Instituição:</strong>{" "}
+                    {selectedSpecie.institutionCode}
+                  </p>
+                )}
+                {selectedSpecie.basisOfRecord && (
+                  <p>
+                    <strong>Tipo de Registro:</strong>{" "}
+                    {selectedSpecie.basisOfRecord}
+                  </p>
+                )}
+              </div>
+
+              <div className="mt-8 flex flex-wrap justify-center gap-4">
+                <a
+                  href={`https://www.gbif.org/occurrence/${
+                    selectedSpecie.key || selectedSpecie.occurrenceID
+                  }`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow text-sm"
+                >
+                  🌐 Ver na GBIF
+                </a>
+
+                {selectedSpecie.media?.[0]?.identifier?.endsWith(".jpg") && (
+                  <a
+                    href={selectedSpecie.media[0].identifier.replace(
+                      ".jpg",
+                      ".svg"
+                    )}
+                    download={`${selectedSpecie.species || "especie"}.svg`}
+                    className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-xl shadow text-sm"
+                  >
+                    📥 Baixar SVG
+                  </a>
+                )}
               </div>
             </div>
           </div>
