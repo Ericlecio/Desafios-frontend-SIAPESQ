@@ -6,6 +6,7 @@ import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
 import Papa from "papaparse";
 import FileSaver from "file-saver";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 export default function Info() {
   const [species, setSpecies] = useState<any[]>([]);
@@ -21,12 +22,16 @@ export default function Info() {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [selectedSpecie, setSelectedSpecie] = useState<any>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) router.push("/login");
-      else setUser(user);
+      if (!user) {
+        router.push("/login");
+      } else {
+        setUser(user);
+      }
     });
     return () => unsubscribe();
   }, [router]);
@@ -109,78 +114,120 @@ export default function Info() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#E0F2F1] to-[#B2DFDB]">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#E0F7FA] to-[#F1F8F9]">
       <Navbar />
+      <main
+        className={`flex-grow px-6 py-12 mt-12 ${isSidebarOpen ? "ml-64" : ""}`}
+      >
+        {/* Botão de abrir a barra lateral */}
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="absolute top-25 left-4 bg-blue-600 text-white p-4 rounded-xl shadow-md "
+        >
+          &#9776; Filtros
+        </button>
 
-      <main className="flex-grow px-6 py-12">
+        {/* Barra de pesquisa centralizada acima dos cards */}
+        <div className="flex justify-center mb-10">
+          <form
+            onSubmit={handleSearch}
+            className="w-full sm:w-2/3 md:w-1/2 flex gap-4"
+          >
+            <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Pesquisar Espécie"
+              className="w-full px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
+            />
+            <button
+              type="submit"
+              className="w-40 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl shadow transition"
+            >
+              Buscar
+            </button>
+          </form>
+        </div>
+
+        {/* Botão de abrir a barra lateral */}
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="absolute top-25 left-4 bg-[#1E2A47] text-white p-4 rounded-xl shadow-md flex items-center gap-2"
+        >
+          <FaBars className="text-2xl" />
+          Filtros
+        </button>
+
+        {/* Barra lateral (filtros) */}
+        <div
+          className={`fixed top-0 left-0 h-full w-64 bg-[#1F2A40] text-white shadow-lg transition-transform duration-300 ${
+            isSidebarOpen ? "transform-none" : "-translate-x-full"
+          }`}
+          style={{ zIndex: 105 }}
+        >
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="absolute top-4 right-4 text-xl text-white"
+          >
+            <FaTimes />
+          </button>
+          <br />
+          <br />
+          <div className="p-6 space-y-4 overflow-y-auto">
+            <form onSubmit={handleSearch}>
+              <select
+                value={countryFilter}
+                onChange={(e) => setCountryFilter(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-black shadow-md mb-4"
+              >
+                <option value="">Todos os Países</option>
+                <option value="BR">Brasil</option>
+                <option value="US">Estados Unidos</option>
+                <option value="CO">Colômbia</option>
+                <option value="MX">México</option>
+                <option value="AR">Argentina</option>
+              </select>
+              <input
+                value={institution}
+                onChange={(e) => setInstitution(e.target.value)}
+                placeholder="Instituição (ex: INPA)"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-black shadow-md mb-4"
+              />
+              <input
+                type="number"
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                placeholder="Ano (ex: 2020)"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-black shadow-md mb-4"
+              />
+              <input
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+                placeholder="Latitude"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-black shadow-md mb-4"
+              />
+              <input
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
+                placeholder="Longitude"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-black shadow-md mb-4"
+              />
+              <select
+                value={orderBy}
+                onChange={(e) => setOrderBy(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-black shadow-md mb-4"
+              >
+                <option value="">Ordenar por...</option>
+                <option value="year">Ano</option>
+                <option value="eventDate">Data do Registro</option>
+                <option value="country">País (A-Z)</option>
+              </select>
+            </form>
+          </div>
+        </div>
+
         <h1 className="text-4xl font-bold text-center text-[#1E3A8A] mb-10">
           Espécies com Registros Visuais
         </h1>
-
-        <form
-          onSubmit={handleSearch}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mb-8"
-        >
-          <input
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Espécie"
-            className="px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
-          />
-          <select
-            value={countryFilter}
-            onChange={(e) => setCountryFilter(e.target.value)}
-            className="px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
-          >
-            <option value="">Todos os Países</option>
-            <option value="BR">Brasil</option>
-            <option value="US">Estados Unidos</option>
-            <option value="CO">Colômbia</option>
-            <option value="MX">México</option>
-            <option value="AR">Argentina</option>
-          </select>
-          <input
-            value={institution}
-            onChange={(e) => setInstitution(e.target.value)}
-            placeholder="Instituição (ex: INPA)"
-            className="px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
-          />
-          <input
-            type="number"
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
-            placeholder="Ano (ex: 2020)"
-            className="px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
-          />
-          <input
-            value={latitude}
-            onChange={(e) => setLatitude(e.target.value)}
-            placeholder="Latitude"
-            className="px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
-          />
-          <input
-            value={longitude}
-            onChange={(e) => setLongitude(e.target.value)}
-            placeholder="Longitude"
-            className="px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
-          />
-          <select
-            value={orderBy}
-            onChange={(e) => setOrderBy(e.target.value)}
-            className="px-4 py-3 rounded-xl border border-gray-300 shadow-sm"
-          >
-            <option value="">Ordenar por...</option>
-            <option value="year">Ano</option>
-            <option value="eventDate">Data do Registro</option>
-            <option value="country">País (A-Z)</option>
-          </select>
-          <button
-            type="submit"
-            className="col-span-full bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl shadow transition"
-          >
-            Buscar
-          </button>
-        </form>
 
         {loading ? (
           <div className="text-center text-lg text-gray-700">

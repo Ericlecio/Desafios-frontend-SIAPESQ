@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { Toaster } from "sonner"; // 👈 Importa o Toaster
+import { Toaster } from "sonner";
 import "leaflet/dist/leaflet.css";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>EcoPulse</title>
-        <link rel="icon" type="image/png" href="/logo_biodata.png" />
+        <link rel="icon" type="image/png" href="/Logo_EcoPulse.png" />{" "}
       </Head>
 
       {/* Toaster para notificações visuais */}

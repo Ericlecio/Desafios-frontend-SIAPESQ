@@ -1,5 +1,11 @@
 import React from "react";
-import { FaInstagram, FaLinkedin, FaFacebook, FaTwitter } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaLinkedin,
+  FaGithub,
+  FaFacebook,
+  FaTwitter,
+} from "react-icons/fa";
 
 const Footer: React.FC = () => {
   return (
@@ -67,22 +73,19 @@ const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Desenvolvedor */}
           <div>
             <h4 className="text-lg font-semibold mb-4 text-emerald-400">
-              Siga-nos
+              Desenvolvido por
             </h4>
-            <div className="flex space-x-5 text-xl text-gray-300">
+            <p className="text-sm text-gray-300 mb-4">
+              <span className="font-semibold">Ericlecio Thiago</span> —
+              Engenheiro de Software apaixonado por tecnologia, ciência e
+              inovação.
+            </p>
+            <div className="flex space-x-4 text-xl text-gray-300">
               <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-emerald-300 transition"
-              >
-                <FaInstagram />
-              </a>
-              <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/ericlecio-thiago/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-emerald-300 transition"
@@ -90,20 +93,30 @@ const Footer: React.FC = () => {
                 <FaLinkedin />
               </a>
               <a
-                href="https://facebook.com"
+                href="https://www.instagram.com/ericlecio_morais/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-emerald-300 transition"
               >
-                <FaFacebook />
+                <FaInstagram />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://github.com/Ericlecio"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-emerald-300 transition"
               >
-                <FaTwitter />
+                <FaGithub />
+              </a>
+            </div>
+            <div className="mt-3">
+              <a
+                href="http://lattes.cnpq.br/6410592321096534"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-emerald-400 hover:underline"
+              >
+                Currículo Lattes
               </a>
             </div>
           </div>

@@ -1,5 +1,5 @@
 specVersion: "v1"
-serviceId: "2025-01-desafio-front-end"
+serviceId: "desafios-frontend-siapesq"
 location: "us-central1"
 schema:
   source: "./schema"
@@ -7,6 +7,6 @@ schema:
     postgresql:
       database: "fdcdb"
       cloudSql:
-        instanceId: "2025-01-desafio-front-end-fdc"
+        instanceId: "desafios-frontend-siapesq-fdc"
       # schemaValidation: "COMPATIBLE"
 connectorDirs: ["./connector"]
